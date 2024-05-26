@@ -2,6 +2,7 @@ package Controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class sqlconnect {
 	
@@ -14,14 +15,17 @@ public class sqlconnect {
 		sqlconnect.con = con;
 	}
 
-	public sqlconnect(String connectionString) {
-        try {
-            con = DriverManager.getConnection(connectionString);
-            System.out.println("Kết nối thành công");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	 public sqlconnect(String url, String username, String password) {
+	        try {
+	            Class.forName("oracle.jdbc.driver.OracleDriver");
+	            this.con = DriverManager.getConnection(url, username, password);
+	            System.out.println("Kết nối thành công");
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

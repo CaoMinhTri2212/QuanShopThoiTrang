@@ -1,0 +1,42 @@
+package View;
+
+import java.awt.EventQueue;
+import java.sql.Connection;
+
+import javax.swing.JInternalFrame;
+
+import Controller.sqlconnect;
+
+public class FormSanPham extends JInternalFrame {
+
+	private static final long serialVersionUID = 1L;
+	private sqlconnect con;
+	private Connection connection;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FormSanPham frame = new FormSanPham();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public FormSanPham() {
+		con = new sqlconnect("jdbc:oracle:thin:@localhost:1521:orclp", "SYS as SYSDBA", "123");
+		connection = con.getCon();
+		setBounds(100, 100, 450, 300);
+
+	}
+
+}
