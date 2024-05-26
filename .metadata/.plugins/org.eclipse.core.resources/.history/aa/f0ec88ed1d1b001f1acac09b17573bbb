@@ -142,16 +142,7 @@ public class FormMain extends JFrame {
 		JButton btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FormNhanvien menu = new FormNhanvien();
-		        menu.setVisible(true); 
-		        menu.setSize(desktopPane.getSize());
-		        menu.setLocation(0, 0);
-		        desktopPane.add(menu);
-		        try {
-		            menu.setSelected(true);
-		        } catch (java.beans.PropertyVetoException ex) {
-		            ex.printStackTrace();
-		        }
+				
 			}
 		});
 		
