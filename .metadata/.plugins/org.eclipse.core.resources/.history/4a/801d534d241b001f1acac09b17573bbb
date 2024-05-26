@@ -3,24 +3,14 @@ package View;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.sqlconnect;
-import Model.NhanVien;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,10 +35,6 @@ public class FormNhanvien extends JInternalFrame {
 	private JTextField edtsdt;
 	private JTextField edtdiachi;
 	private JTextField edtmail;
-	private JTextField editSDT;
-	private JComboBox cbChucVu;
-	private JRadioButton rdNam,rdNu;
-	ArrayList<NhanVien>listNhanVien;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	/**
 	 * Launch the application.
@@ -187,80 +173,30 @@ public class FormNhanvien extends JInternalFrame {
 		lblNewLabel_1_4_1.setBounds(24, 285, 140, 21);
 		panel_1.add(lblNewLabel_1_4_1);
 		
-		listNhanVien=getListNhanVien();
-		defaultTableModel=(DefaultTableModel)table.getModel();
-		defaultTableModel.setColumnIdentifiers(new Object[] {
-				"Mã NV","Tên NV","Ngày Sinh","Giới Tính","Địa chỉ","Email","SDT"
-		});
-		showTableNhanVien();
+		
 		
 
 	}
-	
-	public void showTableNhanVien() {
-	    defaultTableModel.setRowCount(0);
-	    CallableStatement callableStatement = null;
-	    ResultSet resultSet = null;
-
-	    try {
-	        String sql = "{call hien_thi_nhanvien(?)}";
-	        callableStatement = connection.prepareCall(sql);
-	        callableStatement.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-
-	        callableStatement.execute();
-
-	        resultSet = (ResultSet) callableStatement.getObject(1);
-
-	        while (resultSet.next()) {
-	        	String maNV = resultSet.getString("maNV");
-	            String tenNV = resultSet.getString("tenNV");
-	            Date date = resultSet.getDate("ngaySinh");
-	            String gioiTinh = resultSet.getString("gioiTinh");
-	            String diaChi = resultSet.getString("diachi");
-	            String email = resultSet.getString("email");
-	            
-	            String sdt = resultSet.getString("sdt");
-	           
-	            defaultTableModel.addRow(new Object[] {maNV,tenNV, tenNV,date,gioiTinh,email,sdt});
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        JOptionPane.showMessageDialog(this, "Lỗi khi hiển thị nhân viên: " + e.getMessage());
-	    } finally {
-	        try {
-	            if (resultSet != null) resultSet.close();
-	            if (callableStatement != null) callableStatement.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}
-	public ArrayList<NhanVien>getListNhanVien()
+	public ArrayList<NguyenLieu>getListNguyenlieu()
 	{
-		ArrayList<NhanVien>listNV=new ArrayList<NhanVien>();
-		String sqlString="Select *from NhanVien";
+		ArrayList<NguyenLieu>list=new ArrayList<NguyenLieu>();
+		String sqlString="select *from nguyenlieu";
 		try {
 			PreparedStatement preparedStatement=connection.prepareStatement(sqlString);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			while(resultSet.next())
 			{
-				NhanVien nVien=new NhanVien();
-				nVien.setMaNhanVien(resultSet.getString("maNV"));
-				nVien.setTenNhanVien(resultSet.getString("tenNV"));
-				nVien.setNgaySinh(resultSet.getDate("ngaySinh"));
-				nVien.setGioiTinh(resultSet.getString("gioiTinh"));
-				nVien.setSoDienThoai(resultSet.getString("sdt"));
-				nVien.setDiachi(resultSet.getString("diachi"));
-				nVien.setMail(resultSet.getString("email"));
-				listNV.add(nVien);
+				NguyenLieu nguyenLieu=new NguyenLieu();
+				nguyenLieu.setMaNguyenLieu(resultSet.getString("manguyenlieu"));
+				nguyenLieu.setTenNguyenLieu(resultSet.getString("tennguyenlieu"));
+				nguyenLieu.setDonViTinh(resultSet.getString("donvitinh"));
+				list.add(nguyenLieu);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return listNV;
+		return list;
 	}
 
 }
