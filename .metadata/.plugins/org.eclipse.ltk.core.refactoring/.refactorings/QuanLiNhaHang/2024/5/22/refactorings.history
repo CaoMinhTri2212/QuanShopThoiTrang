@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;sqlconnect.java&apos; to &apos;QuanLyShopThoiTrang/src/Controller&apos;&#x0D;&#x0A;- Original project: &apos;QuanLiNhaHang&apos;&#x0D;&#x0A;- Destination element: &apos;QuanLyShopThoiTrang/src/Controller&apos;&#x0D;&#x0A;- Original element: &apos;Controller.sqlconnect.java&apos;" description="Copy compilation unit" destination="=QuanLyShopThoiTrang/src&lt;Controller" element1="/src&lt;Controller{sqlconnect.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1716692455982" units="1" version="1.0"/>
+</session>
