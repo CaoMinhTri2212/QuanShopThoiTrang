@@ -85,25 +85,22 @@ public class FormMain extends JFrame {
 		
 		btn_formSanPham.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_formSanPham.setBackground(SystemColor.text);
-		btn_formSanPham.setBounds(30, 180, 189, 46);
+		btn_formSanPham.setBounds(30, 169, 189, 46);
 		panel.add(btn_formSanPham);
-		
-		JButton btn_Kho = new JButton("Kho");
-		btn_Kho.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
-		btn_Kho.setHorizontalAlignment(SwingConstants.LEFT);
-		btn_Kho.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btn_Kho.setBackground(Color.WHITE);
-		btn_Kho.setBounds(30, 259, 189, 46);
-		panel.add(btn_Kho);
 		
 		JButton btn_KhachHang = new JButton("Khách Hàng");
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FormKhachHang menu = new FormKhachHang();
+		        menu.setVisible(true); 
+		        menu.setSize(desktopPane.getSize());
+		        menu.setLocation(0, 0);
+		        desktopPane.add(menu);
+		        try {
+		            menu.setSelected(true);
+		        } catch (java.beans.PropertyVetoException ex) {
+		            ex.printStackTrace();
+		        }
 
 			}
 		});
@@ -111,12 +108,17 @@ public class FormMain extends JFrame {
 		btn_KhachHang.setHorizontalAlignment(SwingConstants.LEFT);
 		btn_KhachHang.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_KhachHang.setBackground(Color.WHITE);
-		btn_KhachHang.setBounds(30, 341, 189, 46);
+		btn_KhachHang.setBounds(30, 236, 189, 46);
 		panel.add(btn_KhachHang);
 		
 		JButton btn_Thoat = new JButton("Đăng xuất");
 		btn_Thoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 FormDangNhap formDangNhap = new FormDangNhap();
+			        // Hiển thị FormDangNhap
+			     formDangNhap.setVisible(true);
+			        // Đóng FormMain
+			     dispose();
 				
 			}
 		});
@@ -131,11 +133,25 @@ public class FormMain extends JFrame {
 		panel.add(separator_1);
 		
 		JButton btn_HoaDon = new JButton("Hóa đơn");
+		btn_HoaDon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FormChiTiet_HoaDon menu = new FormChiTiet_HoaDon();
+		        menu.setVisible(true); 
+		        menu.setSize(desktopPane.getSize());
+		        menu.setLocation(0, 0);
+		        desktopPane.add(menu);
+		        try {
+		            menu.setSelected(true);
+		        } catch (java.beans.PropertyVetoException ex) {
+		            ex.printStackTrace();
+		        }
+			}
+		});
 
 		btn_HoaDon.setHorizontalAlignment(SwingConstants.LEFT);
 		btn_HoaDon.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_HoaDon.setBackground(Color.WHITE);
-		btn_HoaDon.setBounds(30, 417, 189, 46);
+		btn_HoaDon.setBounds(30, 380, 189, 46);
 		panel.add(btn_HoaDon);
 		
 		
@@ -158,7 +174,7 @@ public class FormMain extends JFrame {
 		btn_NhanVien.setHorizontalAlignment(SwingConstants.LEFT);
 		btn_NhanVien.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btn_NhanVien.setBackground(Color.WHITE);
-		btn_NhanVien.setBounds(30, 494, 189, 46);
+		btn_NhanVien.setBounds(30, 307, 189, 46);
 		panel.add(btn_NhanVien);
 		
 		JLabel lblNewLabel = new JLabel("");

@@ -1,0 +1,65 @@
+package Model;
+
+import java.sql.Date;
+
+public class KhachHang {
+	private String maKH,tenKH,mail,gioiTinh,diachi, sdt;
+	private Date ngaySinh;
+	public String getMaKH() {
+		return maKH;
+	}
+	public void setMaKH(String maKH) {
+		this.maKH = maKH;
+	}
+	public String getTenKH() {
+		return tenKH;
+	}
+	public void setTenKH(String tenKH) {
+		this.tenKH = tenKH;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	public String getGioiTinh() {
+		return gioiTinh;
+	}
+	public void setGioiTinh(String gioiTinh) {
+		this.gioiTinh = gioiTinh;
+	}
+	public String getDiachi() {
+		return diachi;
+	}
+	public void setDiachi(String diachi) {
+		this.diachi = diachi;
+	}
+	public String getSdt() {
+		return sdt;
+	}
+	public void setSdt(String sdt) {
+		this.sdt = sdt;
+	}
+	public Date getNgaySinh() {
+		return ngaySinh;
+	}
+	public void setNgaySinh(Date ngaySinh) {
+		this.ngaySinh = ngaySinh;
+	}
+	public KhachHang(String maKH, String tenKH, String mail, String gioiTinh, String diachi, String sdt,
+			Date ngaySinh) {
+		super();
+		this.maKH = maKH;
+		this.tenKH = tenKH;
+		this.mail = mail;
+		this.gioiTinh = gioiTinh;
+		this.diachi = diachi;
+		this.sdt = sdt;
+		this.ngaySinh = ngaySinh;
+	}
+	public KhachHang() {
+		super();
+	}
+	
+}
