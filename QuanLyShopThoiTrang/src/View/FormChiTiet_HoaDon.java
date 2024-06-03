@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,6 +115,8 @@ public class FormChiTiet_HoaDon extends JInternalFrame {
 		panel_1.add(lblNewLabel_1_3);
 		
 		JButton btnThemNV = new JButton("Thêm");
+		btnThemNV.setBackground(new Color(0, 0, 255));
+		btnThemNV.setForeground(new Color(255, 255, 255));
 		btnThemNV.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -144,6 +147,8 @@ public class FormChiTiet_HoaDon extends JInternalFrame {
 		panel_1.add(btnThemNV);
 		
 		JButton btnXoaNV = new JButton("Xóa");
+		btnXoaNV.setForeground(new Color(255, 255, 255));
+		btnXoaNV.setBackground(new Color(0, 0, 255));
 		btnXoaNV.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
@@ -171,29 +176,6 @@ public class FormChiTiet_HoaDon extends JInternalFrame {
 
 		btnXoaNV.setBounds(81, 267, 140, 21);
 		panel_1.add(btnXoaNV);
-		
-		JButton btnThmHan = new JButton("Tạo Hóa Đơn Mới");
-		btnThmHan.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-		
-			       
-			     FormHoaDon formhoadon = new FormHoaDon();
-			        // Hiển thị FormHoaDon
-			     formhoadon.setVisible(true);
-
-			        // Đóng JFrame chứa JInternalFrame
-			      SwingUtilities.getWindowAncestor(FormChiTiet_HoaDon.this).dispose();
-		
-		    
-		    
-			
-              
-			}
-		});
-		btnThmHan.setBounds(81, 298, 168, 36);
-		panel_1.add(btnThmHan);
-		btnThmHan.setForeground(new Color(255, 128, 64));
-		btnThmHan.setBackground(new Color(255, 255, 255));
 		
 		cbxMaHD = new JComboBox();
 		cbxMaHD.setBounds(155, 42, 167, 21);

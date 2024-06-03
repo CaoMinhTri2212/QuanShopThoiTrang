@@ -39,6 +39,7 @@ public class FormKhachHang extends JInternalFrame {
     private JTextField edtmail;
     private final ButtonGroup buttonGroup = new ButtonGroup();
     private JRadioButton rdNam, rdNu;
+    private JTextField txtsearch;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -159,14 +160,63 @@ public class FormKhachHang extends JInternalFrame {
         panel_1.add(lblEmail);
 
         JButton btnXoaKH = new JButton("Xóa khách hàng");
-        btnXoaKH.setForeground(new Color(0, 0, 255));
+        btnXoaKH.setBackground(new Color(0, 0, 0));
+        btnXoaKH.setForeground(new Color(255, 255, 255));
         btnXoaKH.setBounds(24, 408, 140, 21);
         panel_1.add(btnXoaKH);
 
         JButton btnThemKH = new JButton("Thêm khách hàng");
-        btnThemKH.setForeground(new Color(0, 0, 255));
+        btnThemKH.setBackground(new Color(0, 0, 0));
+        btnThemKH.setForeground(new Color(255, 255, 255));
         btnThemKH.setBounds(24, 365, 140, 21);
         panel_1.add(btnThemKH);
+        
+        JButton btntimkiem = new JButton("Tìm khách hàng");
+        btntimkiem.setBackground(new Color(0, 0, 0));
+        btntimkiem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		 String tenKH = txtsearch.getText().toString().trim();
+ 		        if (!tenKH.isEmpty()) {
+ 		            defaultTableModel.setRowCount(0);
+ 		            String callProcedure = "{CALL searchCustomer(?, ?)}";
+ 		            CallableStatement callableStatement;
+ 		            try {
+ 		                callableStatement = connection.prepareCall(callProcedure);
+ 		                callableStatement.setString(1, tenKH);
+ 		                callableStatement.registerOutParameter(2, java.sql.Types.REF_CURSOR);
+ 		                callableStatement.execute();
+ 		                
+ 		                ResultSet resultSet = (ResultSet) callableStatement.getObject(2);
+ 		                while (resultSet.next()) {
+ 		                	String maKH = resultSet.getString("maKH");
+ 		                	String tenkh = resultSet.getString("tenKH");
+ 		                	String gioiTinh = resultSet.getString("gioiTinh");
+ 		                	Date date = resultSet.getDate("ngaySinh");
+ 		                	String diaChi = resultSet.getString("diachi");
+ 		                	String email = resultSet.getString("email");
+ 		                	String sdt = resultSet.getString("sdt");
+ 		                   defaultTableModel.addRow(new Object[]{maKH, tenkh, date, gioiTinh, diaChi, email, sdt});
+ 		                }
+ 		                
+ 		                resultSet.close();
+ 		                callableStatement.close();
+ 		            } catch (SQLException e1) {
+ 		                JOptionPane.showMessageDialog(btntimkiem, "Không tìm thấy nhân viên yêu cầu!");
+ 		                e1.printStackTrace();
+ 		            }
+ 		        } else {
+ 		            JOptionPane.showMessageDialog(btntimkiem, "Vui lòng nhập tên nhân viên để tìm kiếm!");
+ 		        }
+        	}
+        });
+        btntimkiem.setForeground(new Color(255, 255, 255));
+        btntimkiem.setBounds(24, 484, 140, 21);
+        panel_1.add(btntimkiem);
+        
+        txtsearch = new JTextField();
+        txtsearch.setColumns(10);
+        txtsearch.setBounds(24, 455, 298, 19);
+        panel_1.add(txtsearch);
 
         btnThemKH.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -276,7 +276,39 @@ public class FormSanPham extends JInternalFrame {
 				getContentPane().add(btnTimKiem);
 				btnTimKiem.addActionListener(new ActionListener() {
 				    public void actionPerformed(ActionEvent e) {
-				        timKiemSanPham();
+				    	 String  nameProducts = txtTimKiem.getText().toString().trim();
+					        if (!nameProducts.isEmpty()) {
+					            defaultTableModel.setRowCount(0);
+					            String callProcedure = "{CALL searchProducts(?, ?)}";
+					            CallableStatement callableStatement;
+					            try {
+					                callableStatement = connection.prepareCall(callProcedure);
+					                callableStatement.setString(1, nameProducts);
+					                callableStatement.registerOutParameter(2, java.sql.Types.REF_CURSOR);
+					                callableStatement.execute();
+					                
+					                ResultSet resultSet = (ResultSet) callableStatement.getObject(2);
+					                while (resultSet.next()) {
+					                	int masp =Integer.parseInt(resultSet.getString("maSP"));
+					    	        	String tesp =resultSet.getString("tenSP");
+					    	        	int kichco = Integer.parseInt(resultSet.getString("kichCo"));
+					    	        	int mau = Integer.parseInt(resultSet.getString("mau"));
+					    	        	int theloai = Integer.parseInt(resultSet.getString("theLoai"));
+					    	        	int soluong = Integer.parseInt(resultSet.getString("soluong"));
+					    	        	int giaban = Integer.parseInt(resultSet.getString("giaBan"));
+					    	        	String mota = resultSet.getString("mota");
+					    	            defaultTableModel.addRow(new Object[] {masp,tesp, kichco,mau,theloai,soluong,giaban,mota});
+					                }
+					                
+					                resultSet.close();
+					                callableStatement.close();
+					            } catch (SQLException e1) {
+					                JOptionPane.showMessageDialog(btnTimKiem, "Không tìm thấy nhân viên yêu cầu!");
+					                e1.printStackTrace();
+					            }
+					        } else {
+					            JOptionPane.showMessageDialog(btnTimKiem, "Vui lòng nhập tên nhân viên để tìm kiếm!");
+					        }
 				    }
 				});
 				btnTimKiem.setBackground(Color.BLACK);
@@ -598,12 +630,5 @@ public class FormSanPham extends JInternalFrame {
 	        JOptionPane.showMessageDialog(this, "Lỗi định dạng dữ liệu: " + e.getMessage());
 	    }
 	}
-	public void timKiemSanPham() {
-	    String tenSanPham = txtTimKiem.getText().trim();
-	    DefaultTableModel model = (DefaultTableModel) table.getModel();
-	    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-	    table.setRowSorter(sorter);
-	    RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter("(?i)" + tenSanPham, 1);
-	    sorter.setRowFilter(filter);
-	}
+	
 }

@@ -54,6 +54,7 @@ public class FormNhanvien extends JInternalFrame {
 	private JRadioButton rdNam,rdNu;
 	ArrayList<NhanVien>listNhanVien;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTextField txtname;
 	/**
 	 * Launch the application.
 	 */
@@ -165,6 +166,8 @@ public class FormNhanvien extends JInternalFrame {
 		panel_1.add(lblNewLabel_1_4);
 		
 		JButton btnThemNV = new JButton("Thêm nhân viên");
+		btnThemNV.setBackground(new Color(0, 0, 0));
+		btnThemNV.setForeground(new Color(255, 255, 255));
 		btnThemNV.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        int maNV = Integer.parseInt(edtma.getText());
@@ -202,6 +205,8 @@ public class FormNhanvien extends JInternalFrame {
 		panel_1.add(btnThemNV);
 		
 		JButton btnXoaNV = new JButton("Xóa nhân viên");
+		btnXoaNV.setForeground(new Color(255, 255, 255));
+		btnXoaNV.setBackground(new Color(0, 0, 0));
 		btnXoaNV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				xoaNhanVien();
@@ -211,12 +216,14 @@ public class FormNhanvien extends JInternalFrame {
 		panel_1.add(btnXoaNV);
 		
 		JButton btnSuaNV = new JButton("Sửa nhân viên");
+		btnSuaNV.setForeground(new Color(255, 255, 255));
+		btnSuaNV.setBackground(new Color(0, 0, 0));
 		btnSuaNV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				suaNhanVien();
 			}
 		});
-		btnSuaNV.setBounds(117, 444, 132, 21);
+		btnSuaNV.setBounds(119, 444, 132, 21);
 		panel_1.add(btnSuaNV);
 		
 		edtdiachi = new JTextField();
@@ -233,6 +240,54 @@ public class FormNhanvien extends JInternalFrame {
 		lblNewLabel_1_4_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_4_1.setBounds(24, 285, 140, 21);
 		panel_1.add(lblNewLabel_1_4_1);
+		
+		txtname = new JTextField();
+		txtname.setColumns(10);
+		txtname.setBounds(636, 48, 167, 19);
+		getContentPane().add(txtname);
+		
+		JButton btntimkiemnhanvien = new JButton("Tìm Kiếm Nhân Viên");
+		btntimkiemnhanvien.setForeground(new Color(255, 255, 255));
+		btntimkiemnhanvien.setBackground(new Color(0, 0, 0));
+		btntimkiemnhanvien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 String tenNVString = txtname.getText().toString().trim();
+			        if (!tenNVString.isEmpty()) {
+			            defaultTableModel.setRowCount(0);
+			            String callProcedure = "{CALL timNhanVien(?, ?)}";
+			            CallableStatement callableStatement;
+			            try {
+			                callableStatement = connection.prepareCall(callProcedure);
+			                callableStatement.setString(1, tenNVString);
+			                callableStatement.registerOutParameter(2, java.sql.Types.REF_CURSOR);
+			                callableStatement.execute();
+			                
+			                ResultSet resultSet = (ResultSet) callableStatement.getObject(2);
+			                while (resultSet.next()) {
+			                	String maNV = resultSet.getString("maNV");
+			    	            String tenNV = resultSet.getString("tenNV");
+			    	            String gioiTinh = resultSet.getString("gioiTinh");
+			    	            Date date = resultSet.getDate("ngaySinh");
+			    	            String diaChi = resultSet.getString("diachi");
+			    	            String email = resultSet.getString("email");
+			    	            
+			    	            String sdt = resultSet.getString("sdt");
+			                    defaultTableModel.addRow(new Object[]{maNV, tenNV, gioiTinh,date,diaChi,email,sdt});
+			                }
+			                
+			                resultSet.close();
+			                callableStatement.close();
+			            } catch (SQLException e1) {
+			                JOptionPane.showMessageDialog(btntimkiemnhanvien, "Không tìm thấy nhân viên yêu cầu!");
+			                e1.printStackTrace();
+			            }
+			        } else {
+			            JOptionPane.showMessageDialog(btntimkiemnhanvien, "Vui lòng nhập tên nhân viên để tìm kiếm!");
+			        }
+			}
+		});
+		btntimkiemnhanvien.setBounds(837, 47, 132, 21);
+		getContentPane().add(btntimkiemnhanvien);
 		
 		listNhanVien=getListNhanVien();
 		defaultTableModel=(DefaultTableModel)table.getModel();
@@ -406,6 +461,4 @@ public class FormNhanvien extends JInternalFrame {
 	        JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên để cập nhật.");
 	    }
 	}
-
-
 }
